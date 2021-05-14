@@ -5,8 +5,11 @@
  */
 package hr.algebra;
 
+import hr.algebra.model.Article;
 import hr.algebra.parsers.rss.ArticleParser;
+import hr.algebra.view.UploadPanel;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
@@ -18,11 +21,15 @@ import javax.xml.stream.XMLStreamException;
 public class Main {
     public static void main(String[] args) {
         try {
-            ArticleParser.parse();
+            List<Article> articles = ArticleParser.parse();
+            articles.forEach(x -> System.out.println(x));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (XMLStreamException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        UploadPanel up = new UploadPanel();
+        up.setEnabled(true);
+        
     }
 }
