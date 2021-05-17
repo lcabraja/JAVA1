@@ -5,7 +5,7 @@
  */
 package hr.algebra.parsers.rss;
 
-import hr.alegebra.factory.ParserFactory;
+import hr.algebra.factory.ParserFactory;
 import hr.algebra.factory.UrlConnectionFactory;
 import hr.algebra.model.Article;
 import java.io.IOException;

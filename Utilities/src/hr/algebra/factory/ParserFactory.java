@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hr.alegebra.factory;
+package hr.algebra.factory;
 
 import java.io.InputStream;
 import javax.xml.stream.XMLEventReader;
