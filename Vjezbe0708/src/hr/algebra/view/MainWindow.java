@@ -5,6 +5,7 @@
  */
 package hr.algebra.view;
 
+import static hr.algebra.utils.WindowUtils.centreWindow;
 import javax.swing.JPanel;
 
 /**
@@ -12,16 +13,14 @@ import javax.swing.JPanel;
  * @author doss
  */
 public class MainWindow extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
-        
-        JPanel up = new UploadPanel();
-        
-        tbMainWindow.add(up);
+        centreWindow(this);
+        configurePanels();
     }
 
     /**
@@ -33,21 +32,21 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tbMainWindow = new javax.swing.JTabbedPane();
+        tpContent = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(400, 400));
+        setMinimumSize(new java.awt.Dimension(1280, 800));
         setPreferredSize(new java.awt.Dimension(400, 400));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tbMainWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tbMainWindow, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(tpContent, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
 
         pack();
@@ -92,6 +91,14 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane tbMainWindow;
+    private javax.swing.JTabbedPane tpContent;
     // End of variables declaration//GEN-END:variables
+
+    private void configurePanels() {
+        tpContent.add(UPLOAD_ARTICLES, new UploadArticlesPanel());
+        tpContent.add(EDIT_ARTICLES, new EditArticlesPanel());
+
+    }
+    private static final String EDIT_ARTICLES = "Edit Articles";
+    private static final String UPLOAD_ARTICLES = "Upload Articles";
 }

@@ -23,5 +23,4 @@ public class IconUtils {
         Image image = bufferedImage.getScaledInstance(width, height,Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
-    
 }
