@@ -11,3 +11,9 @@
 *.dmp
 *.phd
 *.txt
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+assets/
