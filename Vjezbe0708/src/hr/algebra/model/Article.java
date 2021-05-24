@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class Article {
     
-    public static final DateTimeFormatter DATE_FROMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     
     private int id;
     private String title;

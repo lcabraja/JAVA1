@@ -5,13 +5,15 @@
  */
 package hr.algebra.view;
 
+import hr.algebra.dal.Repository;
+import hr.algebra.dal.RepositoryFactory;
 import hr.algebra.model.Article;
-import hr.algebra.model.ArticleListModel;
 import hr.algebra.parsers.rss.ArticleParser;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.xml.stream.XMLStreamException;
 
@@ -19,24 +21,16 @@ import javax.xml.stream.XMLStreamException;
  *
  * @author doss
  */
-public class UploadPanel extends javax.swing.JPanel {
+public class UploadArticlesPanel extends javax.swing.JPanel {
 
+    private DefaultListModel<Article> model;
+    private Repository repository;
     /**
      * Creates new form UploadPanel
      */
-    public UploadPanel() {
+    public UploadArticlesPanel() {
         initComponents();
-        List<Article> articles = null;
-        try {
-            articles = ArticleParser.parse();
-        } catch (IOException ex) {
-            Logger.getLogger(UploadPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(UploadPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ListModel model = new ArticleListModel(articles);
-        articles.forEach(x -> System.out.println(x));
-        lsArticles.setModel(model);
+        init();
     }
 
     /**
@@ -49,21 +43,17 @@ public class UploadPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         spArticles = new javax.swing.JScrollPane();
-        lsArticles = new javax.swing.JList<>();
+        lsArticles = new javax.swing.JList();
         btUpload = new javax.swing.JButton();
 
+        setPreferredSize(new java.awt.Dimension(1192, 769));
         setLayout(new java.awt.BorderLayout());
 
-        lsArticles.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         spArticles.setViewportView(lsArticles);
 
         add(spArticles, java.awt.BorderLayout.CENTER);
 
-        btUpload.setText("jButton1");
+        btUpload.setText("Upload Articles");
         btUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btUploadActionPerformed(evt);
@@ -73,13 +63,36 @@ public class UploadPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUploadActionPerformed
-        // TODO add your handling code here:
+        try {
+            List<Article> articles = ArticleParser.parse();
+            repository.createArticles(articles);
+            loadModel();
+        } catch (Exception ex) {
+            Logger.getLogger(UploadArticlesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btUploadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btUpload;
-    private javax.swing.JList<String> lsArticles;
+    private javax.swing.JList lsArticles;
     private javax.swing.JScrollPane spArticles;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        try {
+            repository = RepositoryFactory.getRepository();
+            model = new DefaultListModel<>(); 
+            loadModel();
+        } catch (Exception ex) {
+            Logger.getLogger(UploadArticlesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadModel() throws Exception {
+        List<Article> articles = repository.selectArticles();
+        model.clear();
+        articles.forEach(model::addElement);
+        lsArticles.setModel(model);
+    }
 }
